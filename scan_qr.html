@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UB ATTEND - QR Scanner</title>
+    <link rel="stylesheet" href="scan.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-header">
+        <img src="img/bglogo.png" alt="University of Batangas Logo" class="logo" />
+        <h1>University of Batangas - QR Attendance System</h1>
+    </div>
+
+    <div class="content-container">
+        <!-- QR Scanner Section -->
+        <div class="qr-container">
+            <h2>Scan QR Code</h2>
+            <div class="qr-video-container">
+                <video id="qr-video" autoplay playsinline></video>
+                <canvas id="qr-canvas" style="display:none;"></canvas>
+            </div>
+            <div id="output" class="output">Initializing camera...</div>
+        </div>
+
+        <!-- Attendance Table Section -->
+        <div class="table-container">
+            <h3>Today's Attendance</h3>
+            <table id="attendance-table" class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic content will be added here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Information Section -->
+        <div class="info-section">
+            <h2>About UB ATTEND</h2>
+            <p>UB ATTEND is the University of Batangas' modern QR-based attendance monitoring system, designed to streamline the attendance tracking process while ensuring accuracy and security.</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Real-Time Tracking</h3>
+                    <p>Instantly record and monitor student attendance with immediate verification and processing.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Secure System</h3>
+                    <p>Advanced QR technology ensures authentic attendance records and prevents proxy attendance.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Easy to Use</h3>
+                    <p>Simple scan-and-go process makes attendance tracking quick and efficient for both students and faculty.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 University of Batangas. All rights reserved.</p>
+    </footer>
+
+    <!-- Audio for successful scan -->
+    <audio id="success-audio" src="audio/success.mp3" preload="auto"></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script>
+        const video = document.getElementById("qr-video");
+        const canvas = document.getElementById("qr-canvas");
+        const output = document.getElementById("output");
+        const attendanceTable = document.getElementById("attendance-table").querySelector("tbody");
+        const context = canvas.getContext("2d");
+        const successAudio = document.getElementById("success-audio");
+        let isProcessing = false;
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(stream => {
+                video.srcObject = stream;
+                video.setAttribute("playsinline", true);
+                video.play();
+                requestAnimationFrame(scanQRCode);
+            })
+            .catch(err => {
+                console.error("Error accessing camera: ", err);
+                output.innerHTML = "Camera access error: " + err.message;
+                output.style.color = "red";
+            });
+
+        function scanQRCode() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, canvas.width, canvas.height);
+                
+                if (code && !isProcessing) {
+                    output.innerHTML = "QR Code Detected: " + code.data;
+                    output.style.color = "green";
+                    isProcessing = true;
+                    processQRCode(code.data);
+                } else if (!code) {
+                    output.innerHTML = "Scanning for QR Code...";
+                    output.style.color = "black";
+                }
+            }
+            requestAnimationFrame(scanQRCode);
+        }
+
+        function processQRCode(qrData) {
+            try {
+                const parsedData = JSON.parse(qrData);
+                const studentId = parsedData.student_id || "Unknown";
+                const studentName = parsedData.student_name || "Unknown";
+                const subject = parsedData.subject || "Unknown";
+
+                fetch("process_qr.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: `qr_data=${encodeURIComponent(qrData)}&subject=${encodeURIComponent(subject)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        addToTable(studentId, studentName, "Present");
+                        successAudio.play();
+                        output.innerHTML = data.message;
+                        output.style.color = "green";
+                    } else {
+                        output.innerHTML = "Error: " + data.message;
+                        output.style.color = "red";
+                    }
+                    isProcessing = false;
+                })
+                .catch(err => {
+                    console.error("Error sending QR data:", err);
+                    alert("Failed to send QR data to server.");
+                    isProcessing = false;
+                });
+            } catch (e) {
+                console.error("Invalid QR code data:", e);
+                alert("Invalid QR code data.");
+                isProcessing = false;
+            }
+        }
+
+        function addToTable(studentId, studentName, status) {
+            const row = attendanceTable.insertRow();
+            const idCell = row.insertCell(0);
+            const nameCell = row.insertCell(1);
+            const statusCell = row.insertCell(2);
+
+            idCell.textContent = studentId;
+            nameCell.textContent = studentName;
+            statusCell.textContent = status;
+        }
+    </script>
+</body>
+</html>

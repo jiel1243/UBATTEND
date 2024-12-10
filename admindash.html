@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UB Admin Dashboard - QR Attendance System</title>
+    <link rel="stylesheet" href="dash.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="img/bglogo.png" alt="UB Logo" class="logo">
+            <span class="logo-text">University of Batangas</span>
+        </div>
+        <div class="nav-links">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#">Profile</a>
+            <a href="index.html" class="logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1>Welcome ADMIN</h1>
+            <p></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-actions">
+            <div class="action-card">
+                <img src="https://img.freepik.com/free-vector/data-extraction-concept-illustration_114360-4766.jpg" alt="View Records">
+                <h2>Attendance Records</h2>
+                <p>Access and manage comprehensive attendance data</p>
+                <a href="view_attendance.php">
+                <button id="viewRecordsBtn" class="btn primary">
+                    <i class="fas fa-table"></i>
+                    View Records
+                </button>
+                </a>
+            </div>
+
+            <div class="action-card">
+                <img src="https://img.freepik.com/free-vector/qr-code-concept-illustration_114360-5853.jpg" alt="QR Scanner">
+                <h2>QR Scanner</h2>
+                <p>Scan student QR codes for instant attendance tracking</p>
+                <a href="scan_qr.html">
+                <button id="openScannerBtn" class="btn secondary">
+                    <i class="fas fa-qrcode"></i>
+                    Open Scanner
+                </button>
+                </a>
+            </div>
+        </div>
+
+    
+
+        <div class="features-grid">
+            <div class="feature-item">
+                <img src="img/imgecce.webp" alt="UB Campus">
+                <h3>Excellence in Education</h3>
+                <p>Supporting UB's commitment to quality education since 1946</p>
+            </div>
+            <div class="feature-item">
+                <img src="img/1-1-jpg.webp" alt="UB Innovation">
+                <h3>Digital Innovation</h3>
+                <p>Embracing technology for better educational management</p>
+            </div>
+            <div class="feature-item">
+                <img src="img/UB-UBNITED-1-2048x1355.jpg" alt="UB Community">
+                <h3>Strong Community</h3>
+                <p>Building connections through efficient systems</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

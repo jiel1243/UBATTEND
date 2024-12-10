@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f8f2e7; /* light beige background */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box; /* Ensures padding is included in width */
+        }
+
+        h2 {
+            color: #800000; /* Maroon */
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+            text-align: left;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            box-sizing: border-box; /* Makes padding part of the width calculation */
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #8B0000; /* Dark Maroon */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #8B0000; /* Dark Maroon */
+            color: #fff;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #b03000; /* Darker Maroon */
+        }
+
+        .form-footer {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #FFD700; /* Dark Yellow */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .form-footer a:hover {
+            color: #FFB200; /* Lighter Yellow */
+        }
+
+        .error, .success {
+            text-align: left;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .error {
+            color: #d9534f; /* Red for errors */
+        }
+
+        .success {
+            color: #5cb85c; /* Green for success */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm" action="register.php" method="POST">
+            <label for="student_id">ID:</label>
+            <input type="text" name="student_id" id="student_id" placeholder="Enter your ID" required>
+        
+            <label for="student_name">Full Name:</label>
+            <input type="text" name="student_name" id="student_name" placeholder="Enter your full name" required>
+        
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="Enter your email" required>
+        
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" placeholder="Enter your username" required>
+        
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" placeholder="Enter your password" required>
+        
+            <!-- Role selection added -->
+            <label for="role">Role:</label>
+            <select name="role" id="role" required>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+                <option value="admin">admin</option>
+            </select>
+        
+            <div class="error" id="errorMessage"></div>
+            <div class="success" id="successMessage"></div>
+        
+            <button type="submit">Register</button>
+        </form>
+        <div class="form-footer">
+            <p>Already have an account? <a href="login.html">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("registerForm");
+        const errorMessage = document.getElementById("errorMessage");
+        const successMessage = document.getElementById("successMessage");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            errorMessage.textContent = "";
+            successMessage.textContent = "";
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch("register.php", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                const result = await response.text();
+
+                if (response.ok) {
+                    successMessage.textContent = result;
+
+                    // Redirect to login page after a short delay
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 2000); // Redirect after 2 seconds
+                } else {
+                    errorMessage.textContent = result;
+                }
+            } catch (err) {
+                errorMessage.textContent = "Something went wrong. Please try again.";
+            }
+        });
+    </script>
+</body>
+</html>

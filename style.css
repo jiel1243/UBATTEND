@@ -1,0 +1,262 @@
+:root {
+    --ub-maroon: #800000;
+    --ub-gold: #FFD700;
+    --ub-navy: #003366;
+    --ub-gray: #F5F5F5;
+    --text-dark: #2C3E50;
+    --text-light: #6C757D;
+    --white: #FFFFFF;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+}
+
+body {
+    background: linear-gradient(135deg, var(--ub-gray) 0%, #FFFFFF 100%);
+    color: var(--text-dark);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    padding-top: 56px; /* Reduced padding for smaller header */
+}
+
+/* Navbar Styles */
+.navbar {
+    background: linear-gradient(to right, var(--ub-maroon), var(--ub-navy));
+    padding: 0.3rem 1rem; /* Reduced padding */
+    box-shadow: var(--shadow-md);
+    min-height: 56px; /* Reduced height */
+}
+
+.navbar-brand {
+    color: var(--white) !important;
+    font-weight: 600;
+    font-size: 1rem; /* Smaller font size */
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem; /* Reduced gap */
+}
+
+.logo-img {
+    width: 28px; /* Smaller logo */
+    height: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.nav-link {
+    color: var(--white) !important;
+    font-weight: 500;
+    padding: 0.3rem 0.6rem !important; /* Reduced padding */
+    transition: var(--transition);
+    font-size: 0.85rem; /* Smaller font size */
+}
+
+.nav-link:hover {
+    color: var(--ub-gold) !important;
+    transform: translateY(-1px);
+}
+
+/* Card Styles */
+.main-card {
+    border: none;
+    border-radius: 12px;
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    transition: var(--transition);
+    margin-top: 1.5rem;
+}
+
+.main-card:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background: linear-gradient(to right, var(--ub-maroon), var(--ub-navy));
+    color: var(--white);
+    padding: 0.75rem 1rem; /* Reduced padding */
+    border: none;
+}
+
+.card-header h4 {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Form Styles */
+.form-section {
+    background: var(--ub-gray);
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    color: var(--ub-navy);
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ub-maroon);
+    font-size: 1rem;
+}
+
+.form-label {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    box-shadow: var(--shadow-sm);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.input-group-text {
+    background-color: var(--white);
+    border: 1px solid #E0E0E0;
+    border-right: none;
+    color: var(--ub-navy);
+    padding: 0.5rem 0.75rem;
+}
+
+.form-control, .form-select {
+    border: 1px solid #E0E0E0;
+    border-left: none;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+    height: auto;
+}
+
+.form-control:disabled {
+    background-color: var(--white);
+    opacity: 0.8;
+}
+
+.form-control:focus, .form-select:focus {
+    box-shadow: none;
+    border-color: var(--ub-navy);
+}
+
+/* Button Styles */
+.btn-generate {
+    background: linear-gradient(to right, var(--ub-maroon), var(--ub-navy));
+    color: var(--white);
+    border: none;
+    padding: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 6px;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.btn-generate:hover {
+    background: linear-gradient(to right, var(--ub-navy), var(--ub-maroon));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    color: var(--white);
+}
+
+/* QR Code Display */
+#qrcode {
+    padding: 1.5rem;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 1.5rem;
+    display: none;
+}
+
+/* Loading Spinner */
+.spinner-border {
+    color: var(--ub-maroon) !important;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+    
+    .form-section {
+        padding: 1rem;
+    }
+    
+    .btn-generate {
+        padding: 0.6rem;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        padding-top: 52px;
+    }
+
+    .navbar {
+        padding: 0.25rem 0.75rem;
+        min-height: 52px;
+    }
+
+    .logo-img {
+        width: 24px;
+    }
+
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem !important;
+    }
+
+    .card-header h4 {
+        font-size: 0.95rem;
+    }
+
+    .section-title {
+        font-size: 0.9rem;
+    }
+
+    .form-label {
+        font-size: 0.8rem;
+    }
+
+    .form-control, .form-select {
+        font-size: 0.8rem;
+    }
+
+    .btn-generate {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main-card {
+    animation: fadeIn 0.5s ease-out;
+}
